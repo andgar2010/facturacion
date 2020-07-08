@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="ie=edge"
+  >
+  <title>Facturacion - By Andrés Garcia</title>
+
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/quasar.min.css"
+    rel="stylesheet"
+    type="text/css"
+  >
+</head>
+
+<body>
+  <div id="q-app">
+
+    <template>
+      <h3 class="text-center">Facturación</h3>
+      <div class="row wrap justify-center items-start content-start q-gutter-lg">
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-input
+            v-model.number="articulo.cantidad"
+            label="Cantidad"
+            type="tel"
+          ></q-input>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-input
+            v-model="articulo.name"
+            label="Nombre de articulo"
+            type="text"
+          ></q-input>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-input
+            prefix="$"
+            v-model.number="articulo.uniValor"
+            label="Unidad de valor"
+            type="tel"
+          ></q-input>
+        </div>
+      </div>
+      <!-- <div class="row wrap justify-center items-start content-start q-gutter-lg">
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-input
+            prefix="$"
+            v-model="articulo.subtotal"
+            label="Subtotal"
+            readonly
+          ></q-input>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-input
+            prefix="$"
+            v-model="articulo.iva"
+            label="IVA"
+            readonly
+          ></q-input>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-input
+            prefix="$"
+            v-model="articulo.total"
+            label="Total valor de articulo"
+            readonly
+          ></q-input>
+        </div>
+      </div> -->
+      <div class="row wrap justify-center items-start content-start q-gutter-lg">
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-btn
+            @click="addArticuloCesta()"
+            color="positive"
+            icon="add"
+            label="Añadir cesta"
+            readonly
+          ></q-btn>
+        </div>
+        <div class="row wrap justify-center items-start content-start q-gutter-lg">
+          <table v-if="cesta.length > 0">
+            <thead>
+              <th>#</th>
+              <th>Cantidad</th>
+              <th>Descripcion</th>
+              <th>Unidad Valor</th>
+              <th>Subtotal</th>
+              <th>IVA</th>
+              <th>Total</th>
+              <th>Editar</th>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(articulo, index) in cesta"
+                :key="index"
+              >
+                <td>{{(articulo.id = index + 1)}}</td>
+                <td>{{articulo.cantidad}}</td>
+                <td>{{articulo.name}}</td>
+                <td>$ {{articulo.uniValor}}</td>
+                <td>$ {{articulo.subtotal}}</td>
+                <td>$ {{articulo.iva}}</td>
+                <td>$ {{articulo.total}}</td>
+                <td>
+                  <q-btn
+                    class="btn btn-danger"
+                    icon="delete"
+                    color="negative"
+                    @click="cesta.splice(index, 1);"
+                  >
+                  </q-btn>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="divider">
+                  <hr />
+                </td>
+                <td></td>
+                <td class="divider">
+                  <hr />
+                </td>
+                <td class="divider">
+                  <hr />
+                </td>
+                <td class="divider">
+                  <hr />
+                </td>
+                <td class="divider">
+                  <hr />
+                </td>
+                <td ></td>
+              </tr>
+              <tr>
+                <td><strong>TOTAL</strong></td>
+                <td>{{ (cesta.length > 1)? cesta.reduce((a, b) => (a.cantidad + b.cantidad)) : cesta[0].cantidad }}</td>
+                <td></td>
+                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.uniValor + b.uniValor)) : cesta[0].uniValor }}</td>
+                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.subtotal + b.subtotal)) : cesta[0].subtotal }}</td>
+                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.iva + b.iva)) : cesta[0].iva }}</td>
+                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.total + b.total)) : cesta[0].total }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table v>
+        </div>
+    </template>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/quasar.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/lang/es.umd.min.js"></script>
+  <script src="assets/js/index.js"></script>
+</body>
+
+</html>
