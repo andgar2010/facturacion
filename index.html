@@ -11,6 +11,10 @@
     http-equiv="X-UA-Compatible"
     content="ie=edge"
   >
+  <meta
+    name="author"
+    content="Andrés Garcia < afgarcia0479 at misena.edu.co >"
+  >
   <title>Facturacion - By Andrés Garcia</title>
 
   <link
@@ -23,6 +27,29 @@
     rel="stylesheet"
     type="text/css"
   >
+  <style>
+    table {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"
+  ></script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/quasar.umd.min.js"
+  ></script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/lang/es.umd.min.js"
+  ></script>
+  <script
+    defer
+    src="assets/js/index.js"
+  ></script>
 </head>
 
 <body>
@@ -30,7 +57,7 @@
 
     <template>
       <h3 class="text-center">Facturación</h3>
-      <div class="row wrap justify-center items-start content-start q-gutter-lg">
+      <div class="row wrap justify-center items-center content-center q-gutter-lg">
         <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
           <q-input
             v-model.number="articulo.cantidad"
@@ -53,13 +80,22 @@
             type="tel"
           ></q-input>
         </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
+          <q-btn
+            @click="addArticuloCesta()"
+            color="positive"
+            icon="add"
+            label="Añadir cesta"
+            readonly
+          ></q-btn>
+        </div>
       </div>
       <!-- <div class="row wrap justify-center items-start content-start q-gutter-lg">
         <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
           <q-input
             prefix="$"
-            v-model="articulo.subtotal"
-            label="Subtotal"
+            v-model="articulo.valorBase"
+            label="valorBase"
             readonly
           ></q-input>
         </div>
@@ -81,15 +117,6 @@
         </div>
       </div> -->
       <div class="row wrap justify-center items-start content-start q-gutter-lg">
-        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
-          <q-btn
-            @click="addArticuloCesta()"
-            color="positive"
-            icon="add"
-            label="Añadir cesta"
-            readonly
-          ></q-btn>
-        </div>
         <div class="row wrap justify-center items-start content-start q-gutter-lg">
           <table v-if="cesta.length > 0">
             <thead>
@@ -97,7 +124,7 @@
               <th>Cantidad</th>
               <th>Descripcion</th>
               <th>Unidad Valor</th>
-              <th>Subtotal</th>
+              <th>Valor base</th>
               <th>IVA</th>
               <th>Total</th>
               <th>Editar</th>
@@ -110,10 +137,10 @@
                 <td>{{(articulo.id = index + 1)}}</td>
                 <td>{{articulo.cantidad}}</td>
                 <td>{{articulo.name}}</td>
-                <td>$ {{articulo.uniValor}}</td>
-                <td>$ {{articulo.subtotal}}</td>
-                <td>$ {{articulo.iva}}</td>
-                <td>$ {{articulo.total}}</td>
+                <td>{{articulo.uniValor | formatCurrency }}</td>
+                <td>{{articulo.valorBase | formatCurrency }}</td>
+                <td>{{articulo.iva | formatCurrency }}</td>
+                <td>{{articulo.total | formatCurrency }}</td>
                 <td>
                   <q-btn
                     class="btn btn-danger"
@@ -142,28 +169,30 @@
                 <td class="divider">
                   <hr />
                 </td>
-                <td ></td>
+                <td></td>
               </tr>
               <tr>
                 <td><strong>TOTAL</strong></td>
                 <td>{{ (cesta.length > 1)? cesta.reduce((a, b) => (a.cantidad + b.cantidad)) : cesta[0].cantidad }}</td>
                 <td></td>
-                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.uniValor + b.uniValor)) : cesta[0].uniValor }}</td>
-                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.subtotal + b.subtotal)) : cesta[0].subtotal }}</td>
-                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.iva + b.iva)) : cesta[0].iva }}</td>
-                <td>$ {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.total + b.total)) : cesta[0].total }}</td>
+                <td>
+                  {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.uniValor + b.uniValor)) : cesta[0].uniValor | formatCurrency}}
+                </td>
+                <td>
+                  {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.valorBase + b.valorBase)) : cesta[0].valorBase | formatCurrency}}
+                </td>
+                <td>{{ (cesta.length > 1)? cesta.reduce((a, b) => (a.iva + b.iva)) : cesta[0].iva | formatCurrency}}
+                </td>
+                <td>
+                  {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.total + b.total)) : cesta[0].total | formatCurrency}}
+                </td>
                 <td></td>
               </tr>
             </tbody>
           </table v>
         </div>
+      </div>
     </template>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/quasar.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/lang/es.umd.min.js"></script>
-  <script src="assets/js/index.js"></script>
 </body>
 
 </html>
