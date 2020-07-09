@@ -90,35 +90,12 @@
           ></q-btn>
         </div>
       </div>
-      <!-- <div class="row wrap justify-center items-start content-start q-gutter-lg">
-        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
-          <q-input
-            prefix="$"
-            v-model="articulo.valorBase"
-            label="valorBase"
-            readonly
-          ></q-input>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
-          <q-input
-            prefix="$"
-            v-model="articulo.iva"
-            label="IVA"
-            readonly
-          ></q-input>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-11">
-          <q-input
-            prefix="$"
-            v-model="articulo.total"
-            label="Total valor de articulo"
-            readonly
-          ></q-input>
-        </div>
-      </div> -->
       <div class="row wrap justify-center items-start content-start q-gutter-lg">
         <div class="row wrap justify-center items-start content-start q-gutter-lg">
-          <table class="center" v-if="cesta.length > 0">
+          <table
+            class="center"
+            v-if="cesta.length > 0"
+          >
             <thead>
               <th>#</th>
               <th>Cantidad</th>
@@ -173,7 +150,9 @@
               </tr>
               <tr>
                 <td><strong>TOTAL</strong></td>
-                <td>{{ (cesta.length > 1)? cesta.reduce((a, b) => (a.cantidad + b.cantidad)) : cesta[0].cantidad }}</td>
+                <td>
+                  {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.cantidad + b.cantidad)) : cesta[0].cantidad }}
+                </td>
                 <td></td>
                 <td>
                   {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.uniValor + b.uniValor)) : cesta[0].uniValor | formatCurrency}}
@@ -181,7 +160,8 @@
                 <td>
                   {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.valorBase + b.valorBase)) : cesta[0].valorBase | formatCurrency}}
                 </td>
-                <td>{{ (cesta.length > 1)? cesta.reduce((a, b) => (a.iva + b.iva)) : cesta[0].iva | formatCurrency}}
+                <td>
+                  {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.iva + b.iva)) : cesta[0].iva | formatCurrency}}
                 </td>
                 <td>
                   {{ (cesta.length > 1)? cesta.reduce((a, b) => (a.total + b.total)) : cesta[0].total | formatCurrency}}
